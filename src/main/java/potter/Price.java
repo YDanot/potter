@@ -6,8 +6,11 @@ import java.util.Objects;
 
 public class Price {
 
+    public static Price ZERO = Price.of("EUR 0.00");
+
     private final BigDecimal value;
     private final Currency currency;
+
 
     private Price(BigDecimal value, Currency currency) {
         this.value = value;
@@ -17,6 +20,10 @@ public class Price {
     public static Price of(String price) {
         final String[] split = price.split(" ");
         return new Price(new BigDecimal(split[1]), Currency.getInstance(split[0]));
+    }
+
+    public Price mul(double size) {
+        return new Price(value.multiply(BigDecimal.valueOf(size)).setScale(2, BigDecimal.ROUND_CEILING), currency);
     }
 
     @Override
@@ -38,7 +45,8 @@ public class Price {
         return currency.getCurrencyCode() +" "+ value ;
     }
 
-    public Price mul(int size) {
-        return new Price(value.multiply(BigDecimal.valueOf(size)), currency);
+
+    public Price add(Price price) {
+        return new Price(value.add(price.value), currency);
     }
 }
