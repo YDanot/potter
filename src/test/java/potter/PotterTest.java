@@ -3,6 +3,7 @@ package potter;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import potter.pricer.Pricer;
+import potter.pricer.discount.DiscountRules;
 
 import java.math.BigDecimal;
 
@@ -122,7 +123,7 @@ public class PotterTest {
     }
 
     private String priceOf(Order order) {
-        return new Pricer().priceOf(order).toString();
+        return new Pricer(DiscountRules.classic()).priceOf(order).toString();
     }
 
     public static Order orderOf(Book... books) {
